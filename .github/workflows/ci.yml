@@ -52,7 +52,55 @@ jobs:
   validate-links:
     name: Check for dead links
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - name: check readme links
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Start service in background
+        run: |
+          uv run uvicorn main:app --host 127.0.0.1 --port 3003 &
+          echo $! > service.pid
+          echo "Service started with PID $(cat service.pid)"
+
+      - name: Wait for service to be ready
+        run: |
+          echo "Waiting for service on port 3003..."
+          timeout=60
+          elapsed=0
+          while ! curl -f http://localhost:3003/templates 2>/dev/null; do
+            if [ $elapsed -ge $timeout ]; then
+              echo "Service did not start within ${timeout} seconds"
+              exit 1
+            fi
+            echo "Waiting... (${elapsed}s/${timeout}s)"
+            sleep 2
+            elapsed=$((elapsed + 2))
+          done
+          echo "Service is ready!"
+
+      - name: Check readme links
         run: npx linkinator README.md
+
+      - name: Stop service
+        if: always()
+        run: |
+          if [ -f service.pid ]; then
+            PID=$(cat service.pid)
+            echo "Stopping service with PID $PID"
+            kill $PID || true
+            sleep 5
+            kill -9 $PID 2>/dev/null || true
+          fi
