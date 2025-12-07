@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+     - main
+  workflow_dispatch:
+
+jobs:
+  lint-format-test:
+    name: Format, linting, type checking, and tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Check formatting with ruff
+        run: uv run ruff format --check .
+
+      - name: Run ruff linting
+        run: uv run ruff check .
+
+      - name: Run type checking with mypy
+        run: uv run mypy .
+
+      - name: Run unit tests
+        run: uv run pytest tests/ -v --tb=short
+
+  spelling:
+    name: Spell Check with Typos
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Actions Repository
+      uses: actions/checkout@v4
+    - name: Spell Check Repo
+      uses: crate-ci/typos@v1.35.5
+
+  validate-links:
+    name: Check for dead links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: check readme links
+        run: npx linkinator README.md
