@@ -293,7 +293,7 @@ wheels = [
 ]
 
 [[package]]
-name = "oicana-example-fastapi"
+name = "oicana-example-python-fastapi"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

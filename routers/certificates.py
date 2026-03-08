@@ -46,7 +46,7 @@ async def create_certificate(request: CreateCertificate):
     try:
         pdf_bytes = template.compile(
             json_inputs=json_inputs,
-            export_format={"format": "pdf"},
+            export={"format": "pdf"},
             mode=CompilationMode.PRODUCTION,
         )
     except Exception as e:

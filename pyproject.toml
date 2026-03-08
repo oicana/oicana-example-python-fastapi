@@ -1,5 +1,5 @@
 [project]
-name = "oicana-example-fastapi"
+name = "oicana-example-python-fastapi"
 version = "0.1.0"
 description = "Example application using Oicana Python integration for PDF templating"
 readme = "README.md"
@@ -8,7 +8,7 @@ license = { text = "MIT" }
 dependencies = [
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.32.0",
-    "oicana>=0.1.0a2",
+    "oicana>=0.1.0a3",
     "python-multipart>=0.0.12",
 ]
 

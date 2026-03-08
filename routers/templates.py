@@ -158,7 +158,7 @@ async def compile_template(template_id: str, payload: CompilationPayload):
         pdf_bytes = template.compile(
             json_inputs=json_inputs,
             blob_inputs=blob_inputs,
-            export_format={"format": "pdf"},
+            export={"format": "pdf"},
             mode=CompilationMode.PRODUCTION,
         )
     except Exception as e:
@@ -210,7 +210,7 @@ async def preview_template(template_id: str, payload: CompilationPayload):
         png_bytes = template.compile(
             json_inputs=json_inputs,
             blob_inputs=blob_inputs,
-            export_format={"format": "png", "pixelsPerPt": 1.0},
+            export={"format": "png", "pixelsPerPt": 1.0},
             mode=CompilationMode.DEVELOPMENT,
         )
     except Exception as e:
