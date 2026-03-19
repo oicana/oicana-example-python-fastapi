@@ -282,14 +282,14 @@ wheels = [
 
 [[package]]
 name = "oicana"
-version = "0.1.0a4"
+version = "0.1.0a5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "oicana-native" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/40/ee/b716967aa56ddd731b0094cf2a809fae56d1b98c4f2a573c2cf8ee201da5/oicana-0.1.0a4.tar.gz", hash = "sha256:ee878e50b7ef6343b0e89899e7de13d733a4ea46c9b437115dbc363c372510af", size = 7230, upload-time = "2026-03-14T16:37:17.756Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6f/68/e05e0e767ddafb08d642fc6c957ecfb106a360f49c48ee5d5a401c14813c/oicana-0.1.0a5.tar.gz", hash = "sha256:c71b44ba4299aa64e3075bd6e563c81e3e649b043bdd21cd02eb61e2a4bd7d05", size = 7359, upload-time = "2026-03-19T20:42:47.802Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ee/9f/e337a071a8a79eb7da04367912b8729b3e9e9d8819cd3ad1cd73ec2e6fb0/oicana-0.1.0a4-py3-none-any.whl", hash = "sha256:f6e8c129b555f31b8925b4d1e04007873ab9a25775ec097ab780d4e44d5b24a8", size = 8639, upload-time = "2026-03-14T16:37:16.478Z" },
+    { url = "https://files.pythonhosted.org/packages/16/23/8af53d0020f716af2897ef905630b025f1aeb882a530640d58f81ed3f7b0/oicana-0.1.0a5-py3-none-any.whl", hash = "sha256:ec7c2fbf67682ea90dde22e5386be031338f12046c6fbca43edee44971228901", size = 8765, upload-time = "2026-03-19T20:42:46.726Z" },
 ]
 
 [[package]]
@@ -314,7 +314,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", specifier = ">=0.115.0" },
-    { name = "oicana", specifier = ">=0.1.0a4" },
+    { name = "oicana", specifier = ">=0.1.0a5" },
     { name = "python-multipart", specifier = ">=0.0.12" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.32.0" },
 ]
@@ -329,15 +329,15 @@ dev = [
 
 [[package]]
 name = "oicana-native"
-version = "0.1.0a4"
+version = "0.1.0a5"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6f/dd/96167c07c394950518100bc9d4c4f8a852b1551bf1a5338a90e2e1c1e1e7/oicana_native-0.1.0a4-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:bcb90520455c8d7e09d1e9951116f13b5ac0d4cf63b7a7cf9000fa4cc2efb075", size = 19304216, upload-time = "2026-03-14T16:34:46.083Z" },
-    { url = "https://files.pythonhosted.org/packages/92/38/45a046e2aff2f93009f22079351e509758c3f8c1d6285745d4f2860ff2a1/oicana_native-0.1.0a4-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:78587ce85045c7e553b1f3e0139fa7d620653e0c764924046101830671531b01", size = 18715703, upload-time = "2026-03-14T16:34:48.298Z" },
-    { url = "https://files.pythonhosted.org/packages/3c/26/d7e85305de072462304ac9766665bca0b2ba539a15fbe11dd03926a2a886/oicana_native-0.1.0a4-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9165aa670e20c4434ece36486973071afe9d9d538aa3df3054e8ec55e23b9ae5", size = 19132043, upload-time = "2026-03-14T16:34:50.611Z" },
-    { url = "https://files.pythonhosted.org/packages/d3/ef/89c43d7c53041c51472d425cae0bbc6036de0e30b698216989960e2da6f9/oicana_native-0.1.0a4-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:41a9225091b76069c9af7abb0422fc46f8c4e58013d96f123434c9b2d698a89e", size = 19737499, upload-time = "2026-03-14T16:34:53.016Z" },
-    { url = "https://files.pythonhosted.org/packages/39/01/ae7259aaaacf0cd86d3a568aff03edb660a22d9adae6ac6247ff8959dad9/oicana_native-0.1.0a4-cp38-abi3-win_amd64.whl", hash = "sha256:5845f55d574ce38400354a548bc071036f123de8d049f8f88b289c29a2be944a", size = 19959702, upload-time = "2026-03-14T16:34:55.295Z" },
-    { url = "https://files.pythonhosted.org/packages/e2/af/4a37b99fb6db6674bd74aa5c22465fb18f9821a4caec9e57fd293815ce3f/oicana_native-0.1.0a4-pp311-pypy311_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ec692e505f6fabd08d3f2a10543404a66834cceec160c527aba46bb11298c33c", size = 19735150, upload-time = "2026-03-14T16:34:57.63Z" },
+    { url = "https://files.pythonhosted.org/packages/21/bc/828e9b13f02d229a65ca5aef7c69edad643daa96dbd68a4addf71d10fd3b/oicana_native-0.1.0a5-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:34922aee11f74d76422aa1c09f9727d3b0425bc69227fa1e6098ac19583e0a8a", size = 19981543, upload-time = "2026-03-19T20:38:08.21Z" },
+    { url = "https://files.pythonhosted.org/packages/86/1c/82d9a60393ebbd04152f7533d8fa617b6826351e4bf15d81852c17df5d63/oicana_native-0.1.0a5-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:585423169b887698a41de8f1e619efbe42a66c6b67ac8972d7f902fd3d581d28", size = 19327821, upload-time = "2026-03-19T20:38:10.624Z" },
+    { url = "https://files.pythonhosted.org/packages/c0/17/31ad756abb10d7d72dadcb4fb9253870736c5b954496d7d244b206a69d59/oicana_native-0.1.0a5-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0e0dd9cf9f8af776d5dfb56e2fd8e4b375ffa5ef50181680693ce936968e3585", size = 19762460, upload-time = "2026-03-19T20:38:12.76Z" },
+    { url = "https://files.pythonhosted.org/packages/69/4a/42242688b4c992ff87e922da5937164182822b0a57739bdcb9ba19b858e9/oicana_native-0.1.0a5-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:67530a46361d475b9bebe4c9beab3abb8ef04fcb83e7b11f452895fc02fcd5b6", size = 20448013, upload-time = "2026-03-19T20:38:15.106Z" },
+    { url = "https://files.pythonhosted.org/packages/3f/74/0e959fc4790363e9f7dbb6a52ed1d625b7883498009b87fbcba1915047c2/oicana_native-0.1.0a5-cp38-abi3-win_amd64.whl", hash = "sha256:9f2ccc217018fd9da424d6b66830d7905aa18833238148a29d9268f3f42764ab", size = 20722523, upload-time = "2026-03-19T20:38:17.302Z" },
+    { url = "https://files.pythonhosted.org/packages/74/f6/02146344d06c6941410f57b856e83de80c1bb6278fc00fe090509f35632f/oicana_native-0.1.0a5-pp311-pypy311_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d00d053597992802aa9dee634bd535537564367938cbb0a84206c75f33850872", size = 20444644, upload-time = "2026-03-19T20:38:19.643Z" },
 ]
 
 [[package]]
