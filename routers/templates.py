@@ -4,6 +4,7 @@ from pathlib import Path
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Response
+from fastapi import Path as PathParam
 from fastapi.responses import FileResponse
 from oicana import BlobInput, CompilationMode, Template
 from pydantic import BaseModel, Field
@@ -131,7 +132,10 @@ def warm_up_templates():
     },
     description="Compile a template with given inputs.",
 )
-async def compile_template(template_id: str, payload: CompilationPayload):
+async def compile_template(
+    payload: CompilationPayload,
+    template_id: str = PathParam(example="table"),
+):
     if template_id not in template_cache:
         raise HTTPException(status_code=404, detail=f"Template '{template_id}' not found!")
 
@@ -186,7 +190,10 @@ async def compile_template(template_id: str, payload: CompilationPayload):
     },
     description="Generate a PNG preview of the template with given inputs.",
 )
-async def preview_template(template_id: str, payload: CompilationPayload):
+async def preview_template(
+    payload: CompilationPayload,
+    template_id: str = PathParam(example="table"),
+):
     if template_id not in template_cache:
         raise HTTPException(status_code=404, detail=f"Template '{template_id}' not found!")
 
@@ -238,7 +245,7 @@ async def preview_template(template_id: str, payload: CompilationPayload):
         "Reset (remove) a template from the cache. The template will be reloaded on next use."
     ),
 )
-async def reset_template(template_id: str):
+async def reset_template(template_id: str = PathParam(example="table")):
     if template_id in template_cache:
         del template_cache[template_id]
         logger.info(f"Template '{template_id}' removed from cache")
@@ -259,7 +266,7 @@ async def reset_template(template_id: str):
     },
     description="Download a packed template.",
 )
-async def get_template(template_id: str):
+async def get_template(template_id: str = PathParam(example="table")):
     template_path = Path(f"templates/{template_id}-0.1.0.zip")
     if not template_path.exists():
         raise HTTPException(status_code=404, detail="Template not found")
