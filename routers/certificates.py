@@ -44,7 +44,7 @@ async def create_certificate(request: CreateCertificate):
     json_inputs = {"certificate": json.dumps({"name": request.name})}
 
     try:
-        pdf_bytes = template.compile(
+        pdf_bytes = template.export(
             json_inputs=json_inputs,
             export={"format": "pdf"},
             mode=CompilationMode.PRODUCTION,

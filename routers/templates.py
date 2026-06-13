@@ -159,7 +159,7 @@ async def compile_template(
         blob_inputs[blob_input.key] = BlobInput(data=blob_data)
 
     try:
-        pdf_bytes = template.compile(
+        pdf_bytes = template.export(
             json_inputs=json_inputs,
             blob_inputs=blob_inputs,
             export={"format": "pdf"},
@@ -214,7 +214,7 @@ async def preview_template(
         blob_inputs[blob_input.key] = BlobInput(data=blob_data)
 
     try:
-        png_bytes = template.compile(
+        png_bytes = template.export(
             json_inputs=json_inputs,
             blob_inputs=blob_inputs,
             export={"format": "png", "pixelsPerPt": 1.0},
