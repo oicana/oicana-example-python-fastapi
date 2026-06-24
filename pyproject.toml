@@ -8,9 +8,12 @@ license = { text = "MIT" }
 dependencies = [
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.32.0",
-    "oicana>=0.3.0",
+    "oicana==0.4.0rc2",
     "python-multipart>=0.0.12",
 ]
+
+[tool.uv]
+prerelease = "allow"
 
 [dependency-groups]
 dev = [
