@@ -2,7 +2,7 @@ import json
 import logging
 
 from fastapi import APIRouter, HTTPException, Response
-from oicana import CompilationMode
+from oicana import CompilationMode, OicanaError
 from pydantic import BaseModel, Field
 
 from .templates import template_cache
@@ -29,7 +29,7 @@ class CreateCertificate(BaseModel):
     },
     description="Create a certificate",
 )
-async def create_certificate(request: CreateCertificate):
+def create_certificate(request: CreateCertificate):
     template_id = "certificate"
 
     if template_id not in template_cache:
@@ -49,7 +49,7 @@ async def create_certificate(request: CreateCertificate):
             export={"format": "pdf"},
             mode=CompilationMode.PRODUCTION,
         )
-    except Exception as e:
+    except OicanaError as e:
         logger.error(f"Certificate template failed to compile: {e}")
         raise HTTPException(
             status_code=400,

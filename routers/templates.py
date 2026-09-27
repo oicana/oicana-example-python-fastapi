@@ -6,7 +6,7 @@ from uuid import UUID
 from fastapi import APIRouter, HTTPException, Response
 from fastapi import Path as PathParam
 from fastapi.responses import FileResponse
-from oicana import BlobInput, CompilationMode, Template
+from oicana import BlobInput, CompilationMode, OicanaError, Template
 from pydantic import BaseModel, Field
 
 from .blobs import get_blob
@@ -117,7 +117,7 @@ def warm_up_templates():
             template = Template(template_bytes, mode=CompilationMode.DEVELOPMENT)
             template_cache[template_id] = template
             logger.info(f"Warmed-up {template_id} v{version}")
-        except Exception as e:
+        except (OSError, OicanaError) as e:
             logger.error(f"Failed to warm up template {template_id} v{version}: {e}")
 
 
@@ -132,7 +132,7 @@ def warm_up_templates():
     },
     description="Compile a template with given inputs.",
 )
-async def compile_template(
+def compile_template(
     payload: CompilationPayload,
     template_id: str = PathParam(example="table"),
 ):
@@ -165,7 +165,7 @@ async def compile_template(
             export={"format": "pdf"},
             mode=CompilationMode.PRODUCTION,
         )
-    except Exception as e:
+    except OicanaError as e:
         logger.error(f"Template '{template_id}' failed to compile: {e}")
         raise HTTPException(
             status_code=400,
@@ -190,7 +190,7 @@ async def compile_template(
     },
     description="Generate a PNG preview of the template with given inputs.",
 )
-async def preview_template(
+def preview_template(
     payload: CompilationPayload,
     template_id: str = PathParam(example="table"),
 ):
@@ -220,7 +220,7 @@ async def preview_template(
             export={"format": "png", "pixelsPerPt": 1.0},
             mode=CompilationMode.DEVELOPMENT,
         )
-    except Exception as e:
+    except OicanaError as e:
         logger.error(f"Template '{template_id}' failed to compile: {e}")
         raise HTTPException(
             status_code=400,
