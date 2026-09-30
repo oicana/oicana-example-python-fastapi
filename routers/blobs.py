@@ -20,7 +20,7 @@ def initialize_blob_storage():
             data = f.read()
         blob_storage[DEFAULT_BLOB_UUID] = data
         logger.info(f"Loaded default blob (Oicana logo) with UUID {DEFAULT_BLOB_UUID}")
-    except Exception as e:
+    except OSError as e:
         logger.error(f"Failed to load default blob from {blob_path}: {e}")
 
 
@@ -35,7 +35,7 @@ def get_blob(blob_id: UUID) -> bytes | None:
         blob_storage[blob_id] = data
         logger.info(f"Loaded blob {blob_id} from disk and cached it")
         return data
-    except Exception as e:
+    except OSError as e:
         logger.warning(f"Failed to read blob {blob_id} from {blob_path}: {e}")
         return None
 
@@ -64,7 +64,7 @@ class UploadResponse(BaseModel):
 async def upload_blob(file: UploadFile = File(..., description="The file to upload")):
     try:
         file_data = await file.read()
-    except Exception as e:
+    except OSError as e:
         logger.error(f"Failed to read file: {e}")
         raise HTTPException(status_code=400, detail="Failed to read file") from e
 
@@ -75,7 +75,7 @@ async def upload_blob(file: UploadFile = File(..., description="The file to uplo
         blob_path.parent.mkdir(parents=True, exist_ok=True)
         with open(blob_path, "wb") as f:
             f.write(file_data)
-    except Exception as e:
+    except OSError as e:
         logger.error(f"Failed to write blob {blob_id} to {blob_path}: {e}")
         raise HTTPException(status_code=500, detail="Failed to save file") from e
 
