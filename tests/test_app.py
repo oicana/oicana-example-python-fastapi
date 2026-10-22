@@ -35,6 +35,19 @@ def test_compile_minimal_template(client):
     assert response.headers["content-type"] == "application/pdf"
 
 
+def test_documented_example(client):
+    schemas = client.get("/openapi.json").json()["components"]["schemas"]
+    payload = schemas["CompilationPayload"]["examples"][0]
+
+    response = client.post("/templates/invoice/compile", json=payload)
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/pdf"
+
+    response = client.post("/templates/invoice/preview", json=payload)
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "image/png"
+
+
 def test_create_certificate(client):
     response = client.post(
         "/certificates",

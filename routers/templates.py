@@ -8,6 +8,7 @@ from fastapi import Path as PathParam
 from fastapi.responses import FileResponse
 from oicana import BlobInput, CompilationMode, OicanaError, Template
 from pydantic import BaseModel, Field
+from pydantic.json_schema import JsonDict
 
 from .blobs import get_blob
 
@@ -30,26 +31,57 @@ TEMPLATES = [
 template_cache: dict[str, Template] = {}
 
 
+INVOICE_INPUT_EXAMPLE: JsonDict = {
+    "key": "invoice",
+    "value": {
+        "id": "2025-03-10t172205",
+        "issuingDate": "2025-04-27",
+        "deliveryDate": "2025-04-19",
+        "dueDate": "2025-05-06",
+        "biller": {
+            "name": "Alex Johnson",
+            "title": "Senior Consultant",
+            "company": "Example Solutions GmbH",
+            "vat-id": "DE1234567",
+            "iban": "DE89370400440532013000",
+            "address": {
+                "country": "Germany",
+                "city": "Berlin",
+                "postal-code": "10115",
+                "street": "Sample Street 23",
+            },
+        },
+        "recipient": {
+            "name": "Maria Schmidt",
+            "title": "IT Manager",
+            "vat-id": "DE7654321",
+            "address": {
+                "country": "Germany",
+                "city": "Munich",
+                "postal-code": "80331",
+                "street": "Business Avenue 1",
+            },
+        },
+        "items": [
+            {"date": "2025-04-03", "description": "Wireless keyboard", "quantity": 4, "price": 25},
+            {"date": "2025-04-03", "description": "USB-C cable", "quantity": 2, "price": 45},
+            {
+                "date": "2025-04-03",
+                "description": "Network infrastructure consultation",
+                "dur-min": 120,
+                "price": 200,
+            },
+        ],
+    },
+}
+BANNER_INPUT_EXAMPLE: JsonDict = {"key": "banner", "blobId": "00000000-0000-0000-0000-000000000000"}
+
+
 class JsonInputDto(BaseModel):
     key: str
     value: dict
 
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "key": "data",
-                    "value": {
-                        "test": "example content",
-                        "items": [
-                            {"name": "Frank", "one": "A", "two": "C", "three": "A"},
-                            {"name": "John", "one": "C", "two": "no show", "three": "B"},
-                        ],
-                    },
-                }
-            ]
-        }
-    }
+    model_config = {"json_schema_extra": {"examples": [INVOICE_INPUT_EXAMPLE]}}
 
 
 class BlobInputDto(BaseModel):
@@ -57,9 +89,7 @@ class BlobInputDto(BaseModel):
     blob_id: UUID = Field(alias="blobId")
 
     model_config = {
-        "json_schema_extra": {
-            "examples": [{"key": "logo", "blobId": "00000000-0000-0000-0000-000000000000"}]
-        },
+        "json_schema_extra": {"examples": [BANNER_INPUT_EXAMPLE]},
         "populate_by_name": True,
     }
 
@@ -71,33 +101,7 @@ class CompilationPayload(BaseModel):
     model_config = {
         "json_schema_extra": {
             "examples": [
-                {
-                    "jsonInputs": [
-                        {
-                            "key": "data",
-                            "value": {
-                                "description": "from sample data",
-                                "rows": [
-                                    {
-                                        "name": "Frank",
-                                        "one": "first",
-                                        "two": "second",
-                                        "three": "third",
-                                    },
-                                    {
-                                        "name": "John",
-                                        "one": "first_john",
-                                        "two": "second_john",
-                                        "three": "third_john",
-                                    },
-                                ],
-                            },
-                        }
-                    ],
-                    "blobInputs": [
-                        {"key": "logo", "blobId": "00000000-0000-0000-0000-000000000000"}
-                    ],
-                }
+                {"jsonInputs": [INVOICE_INPUT_EXAMPLE], "blobInputs": [BANNER_INPUT_EXAMPLE]}
             ]
         },
         "populate_by_name": True,
@@ -134,7 +138,7 @@ def warm_up_templates():
 )
 def compile_template(
     payload: CompilationPayload,
-    template_id: str = PathParam(example="table"),
+    template_id: str = PathParam(example="invoice"),
 ):
     if template_id not in template_cache:
         raise HTTPException(status_code=404, detail=f"Template '{template_id}' not found!")
@@ -192,7 +196,7 @@ def compile_template(
 )
 def preview_template(
     payload: CompilationPayload,
-    template_id: str = PathParam(example="table"),
+    template_id: str = PathParam(example="invoice"),
 ):
     if template_id not in template_cache:
         raise HTTPException(status_code=404, detail=f"Template '{template_id}' not found!")
@@ -242,7 +246,7 @@ def preview_template(
         404: {"description": "Template not found in cache"},
     },
     description=(
-        "Reset (remove) a template from the cache. The template will be reloaded on next use."
+        "Remove a template from the cache. The template is unavailable until the service restarts."
     ),
 )
 async def reset_template(template_id: str = PathParam(example="table")):

@@ -9,19 +9,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-DEFAULT_BLOB_UUID = UUID("00000000-0000-0000-0000-000000000000")
 blob_storage: dict[UUID, bytes] = {}
-
-
-def initialize_blob_storage():
-    blob_path = Path("blobs") / str(DEFAULT_BLOB_UUID)
-    try:
-        with open(blob_path, "rb") as f:
-            data = f.read()
-        blob_storage[DEFAULT_BLOB_UUID] = data
-        logger.info(f"Loaded default blob (Oicana logo) with UUID {DEFAULT_BLOB_UUID}")
-    except OSError as e:
-        logger.error(f"Failed to load default blob from {blob_path}: {e}")
 
 
 def get_blob(blob_id: UUID) -> bytes | None:
@@ -83,6 +71,3 @@ async def upload_blob(file: UploadFile = File(..., description="The file to uplo
     logger.info(f"Stored blob {blob_id} to disk and cache")
 
     return UploadResponse(id=blob_id)
-
-
-initialize_blob_storage()
